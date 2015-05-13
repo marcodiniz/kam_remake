@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ArrayOfArrayOfArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ArrayOfArrayOfString>
+    <ArrayOfString>
+      <string>c:\users\marco\source\repos\kam_remake\services\kam.services\models\identitymodels.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>Kam.Services</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Marco\Source\Repos\kam_remake\Services\Kam.Domain\Base\EntityBase.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Marco\Source\Repos\kam_remake\Services\Kam.Domain\Models\User.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Marco\Source\Repos\kam_remake\Services\Kam.Services\config.json</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Marco\Source\Repos\kam_remake\Services\Kam.ORM\KamContext.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Marco\Source\Repos\kam_remake\Services\Kam.Services\Startup.cs</string>
+    </ArrayOfString>
+    <ArrayOfString>
+      <string>C:\Users\Marco\Source\Repos\kam_remake\Services\Kam.ORM\project.json</string>
+    </ArrayOfString>
+  </ArrayOfArrayOfString>
+</ArrayOfArrayOfArrayOfString>

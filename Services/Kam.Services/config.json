@@ -1,0 +1,10 @@
+{
+  "AppSettings": {
+    "SiteTitle": "Kam.Services"
+  },
+  "Data": {
+    "KamContext": {
+      "ConnectionString": "Server=.\\SQLEXPRESS;Database=KamDev;Trusted_Connection=True;MultipleActiveResultSets=true"
+    }
+  }
+}
