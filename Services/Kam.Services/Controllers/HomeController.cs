@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
@@ -10,6 +11,9 @@ namespace Kam.Services.Controllers
     {
         public IActionResult Index()
         {
+            Debug.WriteLine("home");
+            Debug.WriteLine("home");
+            ViewBag.Test = "oi7";
             return View();
         }
 

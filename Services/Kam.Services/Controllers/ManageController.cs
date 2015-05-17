@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using System.Security.Principal;
+using Kam.Domain.Models;
+using Kam.Security.UserManagment;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
@@ -15,15 +18,16 @@ namespace Kam.Services.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        public ManageController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public ManageController(AppUserManager userManager, AppSigninManager signInManager)
         {
+            Debug.WriteLine("manage");
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public AppUserManager UserManager { get; private set; }
 
-        public SignInManager<ApplicationUser> SignInManager { get; private set; }
+        public AppSigninManager SignInManager { get; private set; }
 
         //
         // GET: /Account/Index
@@ -47,7 +51,7 @@ namespace Kam.Services.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(user),
                 Logins = await UserManager.GetLoginsAsync(user),
                 BrowserRemembered = await SignInManager.IsTwoFactorClientRememberedAsync(user)
-            };
+            }; 
             return View(model);
         }
 
@@ -344,7 +348,7 @@ namespace Kam.Services.Controllers
             Error
         }
 
-        private async Task<ApplicationUser> GetCurrentUserAsync()
+        private async Task<AppUser> GetCurrentUserAsync()
         {
             return await UserManager.FindByIdAsync(Context.User.GetUserId());
         }

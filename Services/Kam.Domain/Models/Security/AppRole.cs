@@ -7,8 +7,6 @@ namespace Kam.Domain.Models
 {
     public class AppRole : IdentityRole<long>, IEntityBase
     {
-        public override ICollection<IdentityUserRole<long>> Users { get; }
-
         public AppRole()
         {
             

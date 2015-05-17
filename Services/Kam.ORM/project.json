@@ -7,8 +7,8 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "EntityFramework": "7.0.0-beta4",
-    "EntityFramework.Commands": "7.0.0-beta4",
+    "EntityFramework": "7.0.0-*",
+    "EntityFramework.Commands": "7.0.0-*",
     "Kam.Domain": "1.0.0-*"
   },
 
@@ -20,10 +20,10 @@
     "dnx451": { },
     "dnxcore50": {
       "dependencies": {
-        "System.Collections": "4.0.10-beta-22816",
-        "System.Linq": "4.0.0-beta-22816",
-        "System.Threading": "4.0.10-beta-22816",
-        "Microsoft.CSharp": "4.0.0-beta-22816"
+        "System.Collections": "4.0.10-*",
+        "System.Linq": "4.0.0-*",
+        "System.Threading": "4.0.10-*",
+        "Microsoft.CSharp": "4.0.0-*"
       }
     }
   }

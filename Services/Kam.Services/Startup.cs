@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Kam.ORM;
@@ -29,13 +31,12 @@ namespace Kam.Services
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, Microsoft.Framework.Runtime.IApplicationEnvironment appEnv)
         {
             // Setup configuration sources.
-            var configuration = new Configuration()
+            var configuration = new Configuration(appEnv.ApplicationBasePath)
                 .AddJsonFile("config.json")
                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
-
             if (env.IsEnvironment("Development"))
             {
                 // This reads the configuration keys from the secret store.
@@ -53,18 +54,27 @@ namespace Kam.Services
         {
             // Add Application settings to the services container.
             services.Configure<AppSettings>(Configuration.GetSubKey("AppSettings"));
-
             // Add EF services to the services container.
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<KamContext>(options =>
                     options.UseSqlServer(Configuration["Data:KamContext:ConnectionString"]));
 
-
             // Add Identity services to the services container.
-            services.AddIdentity<Domain.Models.AppUser, AppRole>()
-                .AddEntityFrameworkStores<KamContext>()
-                .AddDefaultTokenProviders();
+            var iBuilder =
+                services.AddIdentity<AppUser, AppRole>(Security.UserManagment.CustomValidators.ConfigureRules)
+                    .AddEntityFrameworkStores<KamContext, long>()
+                    .AddUserStore<AppUserStore>()
+                    .AddUserManager<AppUserManager>()
+                    .AddDefaultTokenProviders();
+
+            services.AddScoped<SignInManager<AppUser>,AppSigninManager>();
+
+            services.AddTransient<AppRoleStore>();
+            services.AddTransient<AppUserManager>();
+            services.AddTransient<AppUserStore>();
+            services.AddTransient<AppSigninManager>();
+
 
             // Configure the options for the authentication middleware.
             // You can add options for Google, Twitter and other middleware as shown below.
@@ -80,7 +90,6 @@ namespace Kam.Services
                 options.ClientId = Configuration["Authentication:MicrosoftAccount:ClientId"];
                 options.ClientSecret = Configuration["Authentication:MicrosoftAccount:ClientSecret"];
             });
-
             // Add MVC services to the services container.
             services.AddMvc();
 
@@ -93,14 +102,12 @@ namespace Kam.Services
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
             // Configure the HTTP request pipeline.
-
             // Add the console logger.
             loggerfactory.AddConsole(minLevel: LogLevel.Warning);
 
             // Add the following to the request pipeline only in development environment.
             if (env.IsEnvironment("Development"))
             {
-                app.UseBrowserLink();
                 //app.UseErrorPage(ErrorPageOptions.ShowAll);
                 //app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
             }
@@ -110,7 +117,6 @@ namespace Kam.Services
                 // sends the request to the following path or controller action.
                 app.UseErrorHandler("/Home/Error");
             }
-
             // Add static files to the request pipeline.
             app.UseStaticFiles();
 
@@ -132,7 +138,7 @@ namespace Kam.Services
                     defaults: new { controller = "Home", action = "Index" });
 
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
-                // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
+                //routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
 
             IdentityBasicSetup.SetupDefaultUserAndRoles(app.ApplicationServices).Wait();

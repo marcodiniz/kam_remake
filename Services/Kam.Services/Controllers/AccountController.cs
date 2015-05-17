@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
+using Kam.Security.UserManagment;
 using Microsoft.AspNet.Authentication;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
@@ -11,21 +13,22 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Kam.Services;
 using Kam.Services.Models;
+using Microsoft.AspNet.Mvc.Routing;
 
 namespace Kam.Services.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        public AccountController(UserManager<Domain.Models.AppUser> userManager, SignInManager<Domain.Models.AppUser> signInManager)
+        public AccountController(AppUserManager userManager, AppSigninManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
-        public UserManager<Domain.Models.AppUser> UserManager { get; private set; }
+        public AppUserManager UserManager { get; private set; }
 
-        public SignInManager<Domain.Models.AppUser> SignInManager { get; private set; }
+        public AppSigninManager SignInManager { get; private set; }
 
         //
         // GET: /Account/Login

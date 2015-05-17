@@ -69,8 +69,7 @@ namespace Kam.Services.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
+        [Display(Name = "UserName")]
         public string Email { get; set; }
 
         [Required]

@@ -5,8 +5,15 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Kam.Security.UserManagment
 {
-    public class AppUserStore<T> : UserStore<AppUser,AppRole,KamContext,long>
+    public class AppUserStore : UserStore<AppUser,AppRole,KamContext,long>
     {
+        public override long ConvertIdFromString(string id)
+        {
+            var intId = 0;
+            int.TryParse(id, out intId);
+            return intId;
+        }
+
         public AppUserStore() : this(new KamContext())
         {
         }
